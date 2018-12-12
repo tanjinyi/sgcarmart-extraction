@@ -13,10 +13,6 @@ public class CarDetailsParser {
         return parseCarDetails(document);
     }
 
-    private static int parseInteger(String value) {
-        return 0;
-    }
-
     private static CarDetails parseCarDetails(Document document) {
         final CarDetails carDetails = new CarDetails();
         final Elements carDetailsTab = document.select("div.box:nth-child(2) > table > tbody");
@@ -25,10 +21,10 @@ public class CarDetailsParser {
             String value = element.select("td:nth-of-type(2)").get(0).text();
             switch(description) {
                 case "price":
-                    carDetails.setPrice(parseInteger(value));
+                    carDetails.setPrice(Helper.parseStringtoNum(value));
                     break;
                 case "depreciation":
-                    carDetails.setDepreciation(parseInteger(value));
+                    carDetails.setDepreciation(Helper.parseStringtoNum(value));
                     break;
                 case "reg date":
                     carDetails.setRegDate(value);
@@ -37,22 +33,22 @@ public class CarDetailsParser {
                     carDetails.setManufactured(value);
                     break;
                 case "mileage":
-                    carDetails.setMileage(parseInteger(value));
+                    carDetails.setMileage(Helper.parseStringtoNum(value));
                     break;
                 case "transmission":
                     carDetails.setTransmission(value);
                     break;
                 case "engine cap":
-                    carDetails.setEngineCap(parseInteger(value));
+                    carDetails.setEngineCap(Helper.parseStringtoNum(value));
                     break;
                 case "road tax":
-                    carDetails.setRoadTax(parseInteger(value));
+                    carDetails.setRoadTax(Helper.parseStringtoNum(value));
                     break;
                 case "power":
                     carDetails.setPower(value);
                     break;
                 case "curb weight":
-                    carDetails.setCurbWeight(parseInteger(value));
+                    carDetails.setCurbWeight(Helper.parseStringtoNum(value));
                     break;
                 case "features":
                     carDetails.setFeatures(value);
@@ -64,19 +60,19 @@ public class CarDetailsParser {
                     carDetails.setDescription(value);
                     break;
                 case "coe":
-                    carDetails.setCoe(parseInteger(value));
+                    carDetails.setCoe(Helper.parseStringtoNum(value));
                     break;
                 case "omv":
-                    carDetails.setOmv(parseInteger(value));
+                    carDetails.setOmv(Helper.parseStringtoNum(value));
                     break;
                 case "arf":
-                    carDetails.setArf(parseInteger(value));
+                    carDetails.setArf(Helper.parseStringtoNum(value));
                     break;
                 case "dereg value":
-                    carDetails.setDeregValue(parseInteger(value));
+                    carDetails.setDeregValue(Helper.parseStringtoNum(value));
                     break;
                 case "no. of owners":
-                    carDetails.setNoOfOwners(parseInteger(value));
+                    carDetails.setNoOfOwners(Helper.parseStringtoNum(value));
                     break;
                 case "type of veh":
                     carDetails.setTypeOfVeh(value);

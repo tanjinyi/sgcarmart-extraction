@@ -7,6 +7,7 @@ package ai.preferred.crawler.sgcarmart;
 
 import ai.preferred.crawler.sgcarmart.csv.CarDetailsStorage;
 import ai.preferred.crawler.sgcarmart.model.CarDetails;
+import ai.preferred.crawler.sgcarmart.model.ListCrawler;
 import ai.preferred.venom.Handler;
 import ai.preferred.venom.Session;
 import ai.preferred.venom.Worker;
