@@ -38,7 +38,7 @@ public class ListCrawler {
             try (final Crawler crawler = crawler(fetcher(), session).start()) {
                 LOGGER.info("starting crawler...");
 
-                final String startUrl = "https://www.sgcarmart.com/used_cars/listing.php";
+                final String startUrl = "https://www.sgcarmart.com/used_cars/listing.php?RPG=100";
                 crawler.getScheduler().add(new VRequest(startUrl), new CarListHandler());
             } catch (Exception e) {
                 LOGGER.error("Could not run crawler: ", e);
@@ -63,7 +63,7 @@ public class ListCrawler {
                 .fetcher(fetcher)
                 .session(session)
                 // Just to be polite
-                .sleepScheduler(new SleepScheduler(1500, 3000))
+                .sleepScheduler(new SleepScheduler(800, 1500))
                 .build();
     }
 

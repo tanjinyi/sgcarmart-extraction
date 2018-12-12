@@ -30,7 +30,7 @@ public class CarListHandler implements Handler {
         }
 
         for (final Element c : CarList) {
-            LOGGER.info("storing property: {} [{}]", c.attr("abs:href"));
+            // LOGGER.info("storing property: {} [{}]", c.attr("abs:href"));
             scheduler.add(new VRequest(c.attr("abs:href")), new CarDetailsHandler());
         }
 
