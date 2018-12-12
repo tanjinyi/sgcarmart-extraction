@@ -4,13 +4,17 @@ public class CarDetails {
     private String name;
     private int price; //need to remove $ and /yr
     private int depreciation;
-    private String date;
-    private String manuafactured;
+    private String regDate;
+    private String manufactured;
     private int mileage; //need to remove (14k/yr)
     private String transmission;
     private int engineCap; //need to remove ' cc'
     private int roadTax; //need to remove $ and /yr
+    private String power;
     private int curbWeight; //need to remove 'kg'
+    private String features;
+    private String accessories;
+    private String description;
     private int coe; //need to remove $
     private int omv; //need to remove $
     private int arf; //need to remove $
@@ -21,6 +25,8 @@ public class CarDetails {
     private boolean availability;
     private String seller;
     private String address;
+    private int officeNo;
+    private String contact;
 
     public String getName() {
         return name;
@@ -46,20 +52,20 @@ public class CarDetails {
         this.depreciation = depreciation;
     }
 
-    public String getDate() {
-        return date;
+    public String getRegDate() {
+        return regDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
     }
 
-    public String getManuafactured() {
-        return manuafactured;
+    public String getManufactured() {
+        return manufactured;
     }
 
-    public void setManuafactured(String manuafactured) {
-        this.manuafactured = manuafactured;
+    public void setManufactured(String manufactured) {
+        this.manufactured = manufactured;
     }
 
     public int getMileage() {
@@ -94,12 +100,44 @@ public class CarDetails {
         this.roadTax = roadTax;
     }
 
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
     public int getCurbWeight() {
         return curbWeight;
     }
 
     public void setCurbWeight(int curbWeight) {
         this.curbWeight = curbWeight;
+    }
+
+    public String getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(String features) {
+        this.features = features;
+    }
+
+    public String getAccessories() {
+        return accessories;
+    }
+
+    public void setAccessories(String accessories) {
+        this.accessories = accessories;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getCoe() {
@@ -197,9 +235,4 @@ public class CarDetails {
     public void setContact(String contact) {
         this.contact = contact;
     }
-
-    private int officeNo;
-    private String contact;
-
-
 }

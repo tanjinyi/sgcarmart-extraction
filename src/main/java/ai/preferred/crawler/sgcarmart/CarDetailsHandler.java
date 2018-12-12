@@ -7,9 +7,7 @@ package ai.preferred.crawler.sgcarmart;
 
 import ai.preferred.crawler.sgcarmart.csv.CarDetailsStorage;
 import ai.preferred.crawler.sgcarmart.model.CarDetails;
-import ai.preferred.crawler.stackoverflow.EntityCSVStorage;
-import ai.preferred.crawler.stackoverflow.master.ListingCrawler;
-import ai.preferred.crawler.stackoverflow.master.entity.Listing;
+import ai.preferred.crawler.sgcarmart.model.ListCrawler;
 import ai.preferred.venom.Handler;
 import ai.preferred.venom.Session;
 import ai.preferred.venom.Worker;
@@ -34,10 +32,10 @@ public class CarDetailsHandler implements Handler {
     public void handle(Request request, VResponse response, Scheduler scheduler, Session session, Worker worker) {
         LOGGER.info("Processing {}", request.getUrl());
 
-        final ArrayList<CarDetails> carDetails = session.get(CarDetailsCrawler.CAR_DETAILS_KEY);
+        final ArrayList<CarDetails> carDetails = session.get(ListCrawler.CAR_DETAILS_KEY);
 
         // Get CSV storage file
-        final CarDetailsStorage<CarDetails> csvStorage = session.get(CarDetailsCrawler.CSV_STORAGE_KEY);
+        final CarDetailsStorage<CarDetails> csvStorage = session.get(ListCrawler.CSV_STORAGE_KEY);
 
         // Get HTML and JSoup
         final String html = response.getHtml();
@@ -48,8 +46,8 @@ public class CarDetailsHandler implements Handler {
         LOGGER.info("Found car detail: {}", car.getName());
         carDetails.add(car);
         // Add to the array list
-        carDetails.add(carDetail);
+        carDetails.add(car);
         // Write record in CSV
-        csvStorage.append(carDetail);
+        csvStorage.append(car);
     }
 }
