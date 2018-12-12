@@ -10,38 +10,71 @@ public class CarDetailsParser {
 
     public static CarDetails parse(VResponse response) {
         final Document document = response.getJsoup();
-        return new FinalResult(
-                parseListings(document),
-                parseNextPage(document)
-        );
+        return parseCarDetails(document);
     }
 
-    private static List<Listing> parseListings(Document document) {
-        final ArrayList<Listing> jobList = new ArrayList<>();
-
-        final Elements jobs = document.select("div.listResults div.-item");
-
-        for (Element job : jobs) {
-            final Element title = job.select("div.-job-summary > div.-title > h2 > a").first();
-            final String name = title.text();
-            final String url = title.attr("abs:href");
-
-            final String company = job.select("div.fc-black-700 span:nth-of-type(1)").first().text();
-
-            final Listing listing = new Listing(url, name, company);
-
-            jobList.add(listing);
+    private static CarDetails parseCarDetails(Document document) {
+        final CarDetails carDetails = new CarDetails();
+        final Elements carDetailsTab = document.select("div.box:nth-child(2) > table > tbody");
+        for (Element element : carDetailsTab) { // tr element
+            String description = element.selectFirst("td").text().toLowerCase();
+            switch(description) {
+                case "price":
+                    carDetails.setPrice();
+                    break;
+                case "depreciation":
+                    break;
+                case "reg date":
+                    break;
+                case "manufactured":
+                    break;
+                case "mileage":
+                    break;
+                case "transmission":
+                    break;
+                case "engine cap":
+                    break;
+                case "road tax":
+                    break;
+                case "power":
+                    break;
+                case "curb weight":
+                    break;
+                case "features":
+                    break;
+                case "accessories":
+                    break;
+                case "description":
+                    break;
+                case "coe":
+                    break;
+                case "omv":
+                    break;
+                case "arf":
+                    break;
+                case "dereg value":
+                    break;
+                case "no. of owners":
+                    break;
+                case "type of veh":
+                    break;
+                case "category":
+                    break;
+                case "availability":
+                    break;
+            }
         }
 
-        return jobList;
-    }
+        final Elements sellerInformation = document.select("#upfrontpayment");
+        for (Element element : sellerInformation) {
 
-    public static String parseNextPage(Document document) {
-        final Element nextPage = document.select("a.prev-next.test-pagination-next").first();
-        if (nextPage == null) {
-            return null;
         }
-        return nextPage.attr("abs:href");
-    }
 
+        final Elements upfrontPayment = document.select("#sellerinfo");
+        for (Element element : upfrontPayment) {
+
+        }
+
+        return carDetails;
+    }
 }
