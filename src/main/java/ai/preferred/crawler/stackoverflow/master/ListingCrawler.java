@@ -39,7 +39,7 @@ public class ListingCrawler {
 
     // Start CSV printer
     try (final EntityCSVStorage<Listing> printer = new EntityCSVStorage<>(
-        workingDir + "data/results.csv", Listing.class)) {
+                 workingDir + "data/results.csv", Listing.class)) {
 
       // Let's init the session, this allows us to retrieve the array list in the handler
       final ArrayList<Listing> jobListing = new ArrayList<>();

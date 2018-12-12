@@ -7,19 +7,17 @@ package ai.preferred.crawler.sgcarmart;
 
 import ai.preferred.crawler.sgcarmart.csv.CarDetailsStorage;
 import ai.preferred.crawler.sgcarmart.model.CarDetails;
-import ai.preferred.crawler.sgcarmart.model.ListCrawler;
 import ai.preferred.venom.Handler;
 import ai.preferred.venom.Session;
 import ai.preferred.venom.Worker;
 import ai.preferred.venom.job.Scheduler;
 import ai.preferred.venom.request.Request;
-import ai.preferred.venom.request.VRequest;
 import ai.preferred.venom.response.VResponse;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Ween Jiann Lee
@@ -32,10 +30,10 @@ public class CarDetailsHandler implements Handler {
     public void handle(Request request, VResponse response, Scheduler scheduler, Session session, Worker worker) {
         LOGGER.info("Processing {}", request.getUrl());
 
-        final ArrayList<CarDetails> carDetails = session.get(ListCrawler.CAR_DETAILS_KEY);
+        final List<CarDetails> carDetails = session.get(ListCrawler.CAR_KEY);
 
         // Get CSV storage file
-        final CarDetailsStorage<CarDetails> csvStorage = session.get(ListCrawler.CSV_STORAGE_KEY);
+        final CarDetailsStorage<CarDetails> csvStorage = session.get(ListCrawler.CSV_KEY);
 
         // Get HTML and JSoup
         final String html = response.getHtml();

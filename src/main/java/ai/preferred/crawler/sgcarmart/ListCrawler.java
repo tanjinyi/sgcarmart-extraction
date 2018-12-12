@@ -1,7 +1,7 @@
 package ai.preferred.crawler.sgcarmart;
 
-import ai.preferred.crawler.iproperty.csv.PropertyStorage;
-import ai.preferred.crawler.iproperty.entity.Property;
+import ai.preferred.crawler.sgcarmart.csv.CarDetailsStorage;
+import ai.preferred.crawler.sgcarmart.model.CarDetails;
 import ai.preferred.venom.Crawler;
 import ai.preferred.venom.Session;
 import ai.preferred.venom.SleepScheduler;
@@ -14,21 +14,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListCrawler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ListCrawler.class);
 
-    static final Session.Key<Cars> CAR_KEY = new Session.Key<>();
+    static final Session.Key<List<CarDetails>> CAR_KEY = new Session.Key<>();
+    static final Session.Key<CarDetailsStorage<CarDetails>> CSV_KEY = new Session.Key<>();
 
     public static void main(String[] args) {
-        final String filename = "data/car.csv";
-        try (final CarStorage storage = new CarStorage(filename)) {
-
-            storage.append(Cars.getHeader());
-
+        final String filename = "/data/car.csv";
+        String workingDir = System.getProperty("user.dir");
+        try (final CarDetailsStorage<CarDetails> storage = new CarDetailsStorage<>
+                (workingDir + filename, CarDetails.class)) {
+            final List<CarDetails> carDetailsList = new ArrayList<>();
             final Session session = Session.builder()
-                    .put(CAR_KEY, storage)
+                    .put(CAR_KEY, carDetailsList)
                     .build();
 
             try (final Crawler crawler = crawler(fetcher(), session).start()) {

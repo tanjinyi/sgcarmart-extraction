@@ -1,8 +1,5 @@
 package ai.preferred.crawler.sgcarmart;
 
-import ai.preferred.crawler.sgcarmart.csv.PropertyStorage;
-import ai.preferred.crawler.sgcarmart.entity.Cars;
-import ai.preferred.crawler.sgcarmart.model.CarDetails;
 import ai.preferred.venom.Handler;
 import ai.preferred.venom.Session;
 import ai.preferred.venom.Worker;
@@ -10,18 +7,11 @@ import ai.preferred.venom.job.Scheduler;
 import ai.preferred.venom.request.Request;
 import ai.preferred.venom.request.VRequest;
 import ai.preferred.venom.response.VResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CarListHandler implements Handler {
 
@@ -32,7 +22,7 @@ public class CarListHandler implements Handler {
         LOGGER.info("processing: {}", request.getUrl());
 
         final Document document = response.getJsoup();
-        final String selector = "#contentblank > table > tbody > tr > td > table > tbody > tr > td:nth-child(6) > table > tbody > tr > td > table > tbody > tr:nth-child(1) > td:nth-child(2) > table > tbody > tr > td:nth-child(2) > div > strong > a"
+        final String selector = "#contentblank > table > tbody > tr > td > table > tbody > tr > td:nth-child(6) > table > tbody > tr > td > table > tbody > tr:nth-child(1) > td:nth-child(2) > table > tbody > tr > td:nth-child(2) > div > strong > a";
         final Elements CarList = document.select(selector);
         if (CarList.isEmpty()) {
             LOGGER.info("there is no results on this page, stopping: {}", request.getUrl());
