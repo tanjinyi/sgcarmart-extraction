@@ -53,7 +53,7 @@ public class ListCrawler {
                 .validator(
                         EmptyContentValidator.INSTANCE,
                         StatusOkValidator.INSTANCE,
-                        new CarValidator())
+                        new ListingValidator())
                 .build();
     }
 
