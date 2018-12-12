@@ -23,10 +23,6 @@ public class CarDetails {
     private String typeOfVeh;
     private String category;
     private boolean availability;
-    private String seller;
-    private String address;
-    private int officeNo;
-    private String contact;
 
     public String getName() {
         return name;
@@ -202,37 +198,5 @@ public class CarDetails {
 
     public void setAvailability(boolean availability) {
         this.availability = availability;
-    }
-
-    public String getSeller() {
-        return seller;
-    }
-
-    public void setSeller(String seller) {
-        this.seller = seller;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getOfficeNo() {
-        return officeNo;
-    }
-
-    public void setOfficeNo(int officeNo) {
-        this.officeNo = officeNo;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
     }
 }

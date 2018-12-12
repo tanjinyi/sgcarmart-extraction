@@ -19,13 +19,14 @@ public class CarDetailsParser {
 
     private static CarDetails parseCarDetails(Document document) {
         final CarDetails carDetails = new CarDetails();
-        final Elements carDetailsTab = document.select("div.box:nth-child(2) > table > tbody");
+        final Elements carDetailsTab = document.select("div.box:nth-child(2) > table > tbody > *");
         final Element carName = document.selectFirst("#main > div > div > div > a");
         carDetails.setName(carName.text());
         for (Element element : carDetailsTab) { // tr element
             String description = element.selectFirst("td").text().toLowerCase();
-            String value = element.select("td:nth-of-type(2)").get(0).text();
-            LOGGER.info(description + " : " + value);
+            Elements valueElement = element.select("td:nth-of-type(2)");
+            if (valueElement.size() == 0) continue; // skip if we find bottom buttons
+            String value = valueElement.get(0).text();
             switch (description) {
                 case "price":
                     carDetails.setPrice(Helper.parseStringtoNum(value));
