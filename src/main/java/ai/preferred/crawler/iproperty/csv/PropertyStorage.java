@@ -12,23 +12,23 @@ import java.util.List;
 
 public class PropertyStorage implements Closeable {
 
-  private final CSVPrinter printer;
+    private final CSVPrinter printer;
 
-  public PropertyStorage(String filename) throws IOException {
-    printer = new CSVPrinter(new FileWriterWithEncoding(filename, StandardCharsets.UTF_8), CSVFormat.EXCEL);
-  }
+    public PropertyStorage(String filename) throws IOException {
+        printer = new CSVPrinter(new FileWriterWithEncoding(filename, StandardCharsets.UTF_8), CSVFormat.EXCEL);
+    }
 
-  public synchronized void append(List<Object> header) throws IOException {
-    printer.printRecord(header);
-  }
+    public synchronized void append(List<Object> header) throws IOException {
+        printer.printRecord(header);
+    }
 
-  public synchronized void append(Property property) throws IOException {
-    printer.printRecord(property.asList());
-  }
+    public synchronized void append(Property property) throws IOException {
+        printer.printRecord(property.asList());
+    }
 
-  @Override
-  public void close() throws IOException {
-    printer.close(true);
-  }
+    @Override
+    public void close() throws IOException {
+        printer.close(true);
+    }
 
 }

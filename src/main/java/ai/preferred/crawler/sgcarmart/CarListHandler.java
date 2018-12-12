@@ -31,7 +31,7 @@ public class CarListHandler implements Handler {
 
         for (final Element c : CarList) {
             LOGGER.info("storing property: {} [{}]", c.attr("abs:href"));
-            scheduler.add(new VRequest(c.attr("abs:href")), this);
+            scheduler.add(new VRequest(c.attr("abs:href")), new CarDetailsHandler());
         }
 
         String page_selector = "#contentblank > div:nth-child(4) > div:nth-child(4) > a:nth-last-child(1)";

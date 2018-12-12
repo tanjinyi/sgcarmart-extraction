@@ -9,27 +9,27 @@ import org.slf4j.LoggerFactory;
 
 public class ListingValidator implements Validator {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ListingValidator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ListingValidator.class);
 
-  /**
-   * Use this to positively validate your page.
-   * <p>
-   * For example, if you are crawling store ABC, you would find.
-   * </p>
-   *
-   * @param request  The request used to fetch.
-   * @param response The response fetched using request.
-   * @return status of the validation
-   */
-  @Override
-  public Validator.Status isValid(Request request, Response response) {
-    final VResponse vResponse = new VResponse(response);
+    /**
+     * Use this to positively validate your page.
+     * <p>
+     * For example, if you are crawling store ABC, you would find.
+     * </p>
+     *
+     * @param request  The request used to fetch.
+     * @param response The response fetched using request.
+     * @return status of the validation
+     */
+    @Override
+    public Validator.Status isValid(Request request, Response response) {
+        final VResponse vResponse = new VResponse(response);
 
-    if (vResponse.getHtml().contains("Property for rent in Singapore")) {
-      return Status.VALID;
+        if (vResponse.getHtml().contains("Property for rent in Singapore")) {
+            return Status.VALID;
+        }
+
+        LOGGER.info("Invalid content");
+        return Status.INVALID_CONTENT;
     }
-
-    LOGGER.info("Invalid content");
-    return Status.INVALID_CONTENT;
-  }
 }

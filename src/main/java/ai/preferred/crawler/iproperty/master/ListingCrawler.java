@@ -17,50 +17,50 @@ import java.io.IOException;
 
 public class ListingCrawler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ListingCrawler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ListingCrawler.class);
 
-  static final Session.Key<PropertyStorage> STORAGE_KEY = new Session.Key<>();
+    static final Session.Key<PropertyStorage> STORAGE_KEY = new Session.Key<>();
 
-  public static void main(String[] args) {
-    final String filename = "data/iproperty.csv";
-    try (final PropertyStorage storage = new PropertyStorage(filename)) {
+    public static void main(String[] args) {
+        final String filename = "data/iproperty.csv";
+        try (final PropertyStorage storage = new PropertyStorage(filename)) {
 
-      storage.append(Property.getHeader());
+            storage.append(Property.getHeader());
 
-      final Session session = Session.builder()
-          .put(STORAGE_KEY, storage)
-          .build();
+            final Session session = Session.builder()
+                    .put(STORAGE_KEY, storage)
+                    .build();
 
-      try (final Crawler crawler = crawler(fetcher(), session).start()) {
-        LOGGER.info("starting crawler...");
+            try (final Crawler crawler = crawler(fetcher(), session).start()) {
+                LOGGER.info("starting crawler...");
 
-        final String startUrl = "https://www.iproperty.com.sg/rent/list/";
-        crawler.getScheduler().add(new VRequest(startUrl), new ListingHandler());
-      } catch (Exception e) {
-        LOGGER.error("Could not run crawler: ", e);
-      }
+                final String startUrl = "https://www.iproperty.com.sg/rent/list/";
+                crawler.getScheduler().add(new VRequest(startUrl), new ListingHandler());
+            } catch (Exception e) {
+                LOGGER.error("Could not run crawler: ", e);
+            }
 
-    } catch (IOException e) {
-      LOGGER.error("unable to open file: {}, {}", filename, e);
+        } catch (IOException e) {
+            LOGGER.error("unable to open file: {}, {}", filename, e);
+        }
     }
-  }
 
-  private static Fetcher fetcher() {
-    return AsyncFetcher.builder()
-        .validator(
-            EmptyContentValidator.INSTANCE,
-            StatusOkValidator.INSTANCE,
-            new ListingValidator())
-        .build();
-  }
+    private static Fetcher fetcher() {
+        return AsyncFetcher.builder()
+                .validator(
+                        EmptyContentValidator.INSTANCE,
+                        StatusOkValidator.INSTANCE,
+                        new ListingValidator())
+                .build();
+    }
 
-  private static Crawler crawler(Fetcher fetcher, Session session) {
-    return Crawler.builder()
-        .fetcher(fetcher)
-        .session(session)
-        // Just to be polite
-        .sleepScheduler(new SleepScheduler(1500, 3000))
-        .build();
-  }
+    private static Crawler crawler(Fetcher fetcher, Session session) {
+        return Crawler.builder()
+                .fetcher(fetcher)
+                .session(session)
+                // Just to be polite
+                .sleepScheduler(new SleepScheduler(1500, 3000))
+                .build();
+    }
 
 }

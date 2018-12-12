@@ -14,60 +14,60 @@ import java.util.List;
  */
 public class ListingParser {
 
-  public static class FinalResult {
+    public static class FinalResult {
 
-    private final List<Listing> listings;
+        private final List<Listing> listings;
 
-    private final String nextPage;
+        private final String nextPage;
 
-    private FinalResult(List<Listing> listings, String nextPage) {
-      this.listings = listings;
-      this.nextPage = nextPage;
+        private FinalResult(List<Listing> listings, String nextPage) {
+            this.listings = listings;
+            this.nextPage = nextPage;
+        }
+
+        public List<Listing> getListings() {
+            return listings;
+        }
+
+        public String getNextPage() {
+            return nextPage;
+        }
     }
 
-    public List<Listing> getListings() {
-      return listings;
+    public static FinalResult parse(VResponse response) {
+        final Document document = response.getJsoup();
+        return new FinalResult(
+                parseListings(document),
+                parseNextPage(document)
+        );
     }
 
-    public String getNextPage() {
-      return nextPage;
-    }
-  }
+    private static List<Listing> parseListings(Document document) {
+        final ArrayList<Listing> jobList = new ArrayList<>();
 
-  public static FinalResult parse(VResponse response) {
-    final Document document = response.getJsoup();
-    return new FinalResult(
-        parseListings(document),
-        parseNextPage(document)
-    );
-  }
+        final Elements jobs = document.select("div.listResults div.-item");
 
-  private static List<Listing> parseListings(Document document) {
-    final ArrayList<Listing> jobList = new ArrayList<>();
+        for (Element job : jobs) {
+            final Element title = job.select("div.-job-summary > div.-title > h2 > a").first();
+            final String name = title.text();
+            final String url = title.attr("abs:href");
 
-    final Elements jobs = document.select("div.listResults div.-item");
+            final String company = job.select("div.fc-black-700 span:nth-of-type(1)").first().text();
 
-    for (Element job : jobs) {
-      final Element title = job.select("div.-job-summary > div.-title > h2 > a").first();
-      final String name = title.text();
-      final String url = title.attr("abs:href");
+            final Listing listing = new Listing(url, name, company);
 
-      final String company = job.select("div.fc-black-700 span:nth-of-type(1)").first().text();
+            jobList.add(listing);
+        }
 
-      final Listing listing = new Listing(url, name, company);
-
-      jobList.add(listing);
+        return jobList;
     }
 
-    return jobList;
-  }
-
-  public static String parseNextPage(Document document) {
-    final Element nextPage = document.select("a.prev-next.test-pagination-next").first();
-    if (nextPage == null) {
-      return null;
+    public static String parseNextPage(Document document) {
+        final Element nextPage = document.select("a.prev-next.test-pagination-next").first();
+        if (nextPage == null) {
+            return null;
+        }
+        return nextPage.attr("abs:href");
     }
-    return nextPage.attr("abs:href");
-  }
 
 }

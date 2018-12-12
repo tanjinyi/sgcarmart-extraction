@@ -5,8 +5,12 @@ import ai.preferred.venom.response.VResponse;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CarDetailsParser {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CarDetailsParser.class);
 
     public static CarDetails parse(VResponse response) {
         final Document document = response.getJsoup();
@@ -16,10 +20,13 @@ public class CarDetailsParser {
     private static CarDetails parseCarDetails(Document document) {
         final CarDetails carDetails = new CarDetails();
         final Elements carDetailsTab = document.select("div.box:nth-child(2) > table > tbody");
+        final Element carName = document.selectFirst("#main > div > div > div > a");
+        carDetails.setName(carName.text());
         for (Element element : carDetailsTab) { // tr element
             String description = element.selectFirst("td").text().toLowerCase();
             String value = element.select("td:nth-of-type(2)").get(0).text();
-            switch(description) {
+            LOGGER.info(description + " : " + value);
+            switch (description) {
                 case "price":
                     carDetails.setPrice(Helper.parseStringtoNum(value));
                     break;

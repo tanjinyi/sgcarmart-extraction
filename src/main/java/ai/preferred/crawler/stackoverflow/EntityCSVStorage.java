@@ -13,47 +13,47 @@ import java.util.List;
 
 public class EntityCSVStorage<T> implements AutoCloseable {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(EntityCSVStorage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityCSVStorage.class);
 
-  private final CSVPrinter printer;
+    private final CSVPrinter printer;
 
-  public EntityCSVStorage(String file, Class<T> clazz) throws IOException {
-    printer = new CSVPrinter(new FileWriter(file), CSVFormat.EXCEL);
-    printer.printRecord(getHeaderList(clazz));
-  }
-
-  private static List<String> getHeaderList(Class clazz) {
-    final List<String> result = new ArrayList<>();
-    for (final Field field : clazz.getDeclaredFields()) {
-      result.add(field.getName());
+    public EntityCSVStorage(String file, Class<T> clazz) throws IOException {
+        printer = new CSVPrinter(new FileWriter(file), CSVFormat.EXCEL);
+        printer.printRecord(getHeaderList(clazz));
     }
-    return result;
-  }
 
-  private List<Object> toList(Object object) throws IllegalAccessException {
-    final Field[] fields = object.getClass().getDeclaredFields();
-    final List<Object> result = new ArrayList<>();
-    for (final Field field : fields) {
-      field.setAccessible(true);
-      result.add(field.get(object));
+    private static List<String> getHeaderList(Class clazz) {
+        final List<String> result = new ArrayList<>();
+        for (final Field field : clazz.getDeclaredFields()) {
+            result.add(field.getName());
+        }
+        return result;
     }
-    return result;
-  }
 
-  public synchronized boolean append(T object) {
-    try {
-      printer.printRecord(toList(object));
-      printer.flush();
-    } catch (IOException | IllegalAccessException e) {
-      LOGGER.error("unable to store property: ", e);
-      return false;
+    private List<Object> toList(Object object) throws IllegalAccessException {
+        final Field[] fields = object.getClass().getDeclaredFields();
+        final List<Object> result = new ArrayList<>();
+        for (final Field field : fields) {
+            field.setAccessible(true);
+            result.add(field.get(object));
+        }
+        return result;
     }
-    return true;
-  }
 
-  @Override
-  public void close() throws IOException {
-    printer.close(true);
-  }
+    public synchronized boolean append(T object) {
+        try {
+            printer.printRecord(toList(object));
+            printer.flush();
+        } catch (IOException | IllegalAccessException e) {
+            LOGGER.error("unable to store property: ", e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void close() throws IOException {
+        printer.close(true);
+    }
 
 }

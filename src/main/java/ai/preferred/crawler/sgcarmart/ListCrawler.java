@@ -32,6 +32,7 @@ public class ListCrawler {
             final List<CarDetails> carDetailsList = new ArrayList<>();
             final Session session = Session.builder()
                     .put(CAR_KEY, carDetailsList)
+                    .put(CSV_KEY, storage)
                     .build();
 
             try (final Crawler crawler = crawler(fetcher(), session).start()) {

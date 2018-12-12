@@ -8,27 +8,27 @@ package ai.preferred.crawler.stackoverflow.master.entity;
  */
 public class Listing {
 
-  private final String url;
+    private final String url;
 
-  private final String name;
+    private final String name;
 
-  private final String company;
+    private final String company;
 
-  public Listing(String url, String name, String company) {
-    this.url = url;
-    this.name = name;
-    this.company = company;
-  }
+    public Listing(String url, String name, String company) {
+        this.url = url;
+        this.name = name;
+        this.company = company;
+    }
 
-  public String getUrl() {
-    return url;
-  }
+    public String getUrl() {
+        return url;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getCompany() {
-    return company;
-  }
+    public String getCompany() {
+        return company;
+    }
 }

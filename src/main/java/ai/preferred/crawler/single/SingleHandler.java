@@ -21,24 +21,24 @@ import org.slf4j.LoggerFactory;
  */
 public class SingleHandler implements Handler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SingleHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleHandler.class);
 
-  @Override
-  public void handle(Request request, VResponse response, Scheduler scheduler, Session session, Worker worker) {
-    LOGGER.info("Processing {}", request.getUrl());
+    @Override
+    public void handle(Request request, VResponse response, Scheduler scheduler, Session session, Worker worker) {
+        LOGGER.info("Processing {}", request.getUrl());
 
-    // Get content type
-    System.out.println(response.getContentType());
+        // Get content type
+        System.out.println(response.getContentType());
 
-    // Get HTML
-    final String html = response.getHtml();
-    System.out.println(html);
+        // Get HTML
+        final String html = response.getHtml();
+        System.out.println(html);
 
-    // Get our IP
-    final Document document = response.getJsoup();
-    final String ip = document.select("#content > div.main-box > div > div.column > div > strong")
-        .first().text();
+        // Get our IP
+        final Document document = response.getJsoup();
+        final String ip = document.select("#content > div.main-box > div > div.column > div > strong")
+                .first().text();
 
-    LOGGER.info("My IP is {}, let's go to {} to verify", ip, request.getUrl());
-  }
+        LOGGER.info("My IP is {}, let's go to {} to verify", ip, request.getUrl());
+    }
 }
