@@ -23,17 +23,31 @@ public class ListingValidator implements Validator {
    */
   @Override
   public Status isValid(Request request, Response response) {
+
     final VResponse vResponse = new VResponse(response);
 
-    String text = vResponse.getJsoup().select(
-            "#footerfollow > ul > li:nth-child(1) > strong").text();
 
-    String regdate = vResponse.getJsoup().select(
-            "#date_attach_menu_parent > div").text();
+    if (!request.getUrl().startsWith("https://www.sgcarmart.com/used_cars/listing.php")){
+      String text = vResponse.getJsoup().select(
+              "#footerfollow > ul > li:nth-child(1) > strong").text();
 
-    if (text.equals("Follow sgCarMarket.com") && regdate.equals("&nbsp;Reg Date")) {
-      return Status.VALID;
+      String regdate = vResponse.getJsoup().select(
+              "#date_attach_menu_parent > div").text();
+
+      if (text.equals("Follow sgCarMarket.com") && regdate.equals("&nbsp;Reg Date")) {
+        return Status.VALID;
+      }
+
+    } else {
+      String overview = vResponse.getJsoup().select(
+              "#car_menu > li:nth-child(1) > a > span").text();
+
+      if (overview.equals("Overview")) {
+        return Status.VALID;
+      }
+
     }
+
 
     LOGGER.info("Invalid content");
     return Status.INVALID_CONTENT;
