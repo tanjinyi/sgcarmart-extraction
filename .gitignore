@@ -25,6 +25,3 @@ hs_err_pid*
 
 # IntelliJ IDEA files
 .idea/
-
-# data files
-data/

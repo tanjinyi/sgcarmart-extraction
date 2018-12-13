@@ -41,7 +41,7 @@ public class CarDetailsParser {
                     carDetails.setManufactured(value);
                     break;
                 case "mileage":
-                    carDetails.setMileage(Helper.parseStringtoNum(value));
+                    carDetails.setMileage(value);
                     break;
                 case "transmission":
                     carDetails.setTransmission(value);

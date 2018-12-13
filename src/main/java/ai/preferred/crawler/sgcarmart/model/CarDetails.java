@@ -6,7 +6,7 @@ public class CarDetails {
     private int depreciation;
     private String regDate;
     private String manufactured;
-    private int mileage; //need to remove (14k/yr)
+    private String mileage; //need to remove (14k/yr)
     private String transmission;
     private int engineCap; //need to remove ' cc'
     private int roadTax; //need to remove $ and /yr
@@ -64,11 +64,11 @@ public class CarDetails {
         this.manufactured = manufactured;
     }
 
-    public int getMileage() {
+    public String getMileage() {
         return mileage;
     }
 
-    public void setMileage(int mileage) {
+    public void setMileage(String mileage) {
         this.mileage = mileage;
     }
 
