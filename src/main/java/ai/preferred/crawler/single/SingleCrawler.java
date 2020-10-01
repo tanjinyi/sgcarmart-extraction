@@ -25,12 +25,12 @@ public class SingleCrawler {
 
     public static void main(String[] args) {
 
-        try (Crawler crawler = crawler(httpFetcher()).start()) {
-            LOGGER.info("Starting crawler...");
+    try (Crawler crawler = createCrawler(createFetcher()).start()) {
+      LOGGER.info("Starting crawler...");
 
-            // pass in URL and handler
-            final Request request = new VRequest(URL);
-            final Handler handler = new SingleHandler();
+      // pass in URL and handler
+      final Request request = new VRequest(URL);
+      final Handler handler = new SingleHandler();
 
             crawler.getScheduler().add(request, handler);
         } catch (Exception e) {
@@ -39,16 +39,16 @@ public class SingleCrawler {
 
     }
 
-    private static Fetcher httpFetcher() {
-        // You can look in builder the different things you can add
-        return AsyncFetcher.builder()
-                .build();
-    }
+  private static Fetcher createFetcher() {
+    // You can look in builder the different things you can add
+    return AsyncFetcher.builder()
+        .build();
+  }
 
-    private static Crawler crawler(Fetcher fetcher) {
-        // You can look in builder the different things you can add
-        return Crawler.builder()
-                .fetcher(fetcher)
-                .build();
-    }
+  private static Crawler createCrawler(Fetcher fetcher) {
+    // You can look in builder the different things you can add
+    return Crawler.builder()
+        .setFetcher(fetcher)
+        .build();
+  }
 }

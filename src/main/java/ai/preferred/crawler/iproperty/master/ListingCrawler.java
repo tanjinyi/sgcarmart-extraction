@@ -1,6 +1,6 @@
 package ai.preferred.crawler.iproperty.master;
 
-import ai.preferred.crawler.iproperty.csv.PropertyStorage;
+import ai.preferred.crawler.EntityCSVStorage;
 import ai.preferred.crawler.iproperty.entity.Property;
 import ai.preferred.venom.Crawler;
 import ai.preferred.venom.Session;
@@ -17,22 +17,28 @@ import java.io.IOException;
 
 public class ListingCrawler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ListingCrawler.class);
+  // Create session keys for CSV printer to print from handler
+  static final Session.Key<EntityCSVStorage<Property>> STORAGE_KEY = new Session.Key<>();
 
-    static final Session.Key<PropertyStorage> STORAGE_KEY = new Session.Key<>();
+  // You can use this to log to console
+  private static final Logger LOGGER = LoggerFactory.getLogger(ListingCrawler.class);
 
-    public static void main(String[] args) {
-        final String filename = "data/iproperty.csv";
-        try (final PropertyStorage storage = new PropertyStorage(filename)) {
+  public static void main(String[] args) {
 
-            storage.append(Property.getHeader());
+    // Get file to save to
+    final String filename = "data/iproperty.csv";
 
-            final Session session = Session.builder()
-                    .put(STORAGE_KEY, storage)
-                    .build();
+    // Start CSV printer
+    try (EntityCSVStorage<Property> storage = new EntityCSVStorage<>(filename)) {
 
-            try (final Crawler crawler = crawler(fetcher(), session).start()) {
-                LOGGER.info("starting crawler...");
+      // Let's init the session, this allows us to retrieve the array list in the handler
+      final Session session = Session.builder()
+          .put(STORAGE_KEY, storage)
+          .build();
+
+      // Start crawler
+      try (Crawler crawler = createCrawler(createFetcher(), session).start()) {
+        LOGGER.info("starting crawler...");
 
                 final String startUrl = "https://www.iproperty.com.sg/rent/list/";
                 crawler.getScheduler().add(new VRequest(startUrl), new ListingHandler());
@@ -45,22 +51,22 @@ public class ListingCrawler {
         }
     }
 
-    private static Fetcher fetcher() {
-        return AsyncFetcher.builder()
-                .validator(
-                        EmptyContentValidator.INSTANCE,
-                        StatusOkValidator.INSTANCE,
-                        new ListingValidator())
-                .build();
-    }
+  private static Fetcher createFetcher() {
+    return AsyncFetcher.builder()
+        .setValidator(
+            new EmptyContentValidator(),
+            new StatusOkValidator(),
+            new ListingValidator())
+        .build();
+  }
 
-    private static Crawler crawler(Fetcher fetcher, Session session) {
-        return Crawler.builder()
-                .fetcher(fetcher)
-                .session(session)
-                // Just to be polite
-                .sleepScheduler(new SleepScheduler(1500, 3000))
-                .build();
-    }
+  private static Crawler createCrawler(Fetcher fetcher, Session session) {
+    return Crawler.builder()
+        .setFetcher(fetcher)
+        .setSession(session)
+        // Just to be polite
+        .setSleepScheduler(new SleepScheduler(1500, 3000))
+        .build();
+  }
 
 }

@@ -34,10 +34,9 @@ public class SingleHandler implements Handler {
         final String html = response.getHtml();
         System.out.println(html);
 
-        // Get our IP
-        final Document document = response.getJsoup();
-        final String ip = document.select("#content > div.main-box > div > div.column > div > strong")
-                .first().text();
+    // Get our IP
+    final Document document = response.getJsoup();
+    final String ip = document.select(".your-ip").first().text();
 
         LOGGER.info("My IP is {}, let's go to {} to verify", ip, request.getUrl());
     }

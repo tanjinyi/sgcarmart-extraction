@@ -2,126 +2,106 @@ package ai.preferred.crawler.iproperty.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * This class allows you to store your entities. Define the
+ * properties of your entities in this class.
+ */
 public class Property {
 
-    public static List<Object> getHeader() {
-        final List<Object> result = new ArrayList<>();
-        for (final Field field : Property.class.getDeclaredFields()) {
-            result.add(field.getName());
-        }
-        return result;
-    }
+  private String url;
+  private String title;
+  private String price;
+  private String address;
+  private String type;
+  private String area;
+  private String psf;
+  private Integer numBeds;
+  private Integer numBaths;
+  private String carpark;
 
-    private String url;
-    private String title;
-    private String price;
-    private String address;
-    private String type;
-    private String area;
-    private String psf;
-    private Integer numBeds;
-    private Integer numBaths;
-    private String carpark;
+  public String getUrl() {
+    return url;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+  public String getPrice() {
+    return price;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public void setPrice(String price) {
+    this.price = price;
+  }
 
-    public void setArea(String area) {
-        this.area = area;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public void setPsf(String psf) {
-        this.psf = psf;
-    }
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public void setNumBeds(Integer numBeds) {
-        this.numBeds = numBeds;
-    }
+  public String getAddress() {
+    return address;
+  }
 
-    public void setNumBaths(Integer numBaths) {
-        this.numBaths = numBaths;
-    }
+  public void setAddress(String address) {
+    this.address = address;
+  }
 
-    public void setCarpark(String carpark) {
-        this.carpark = carpark;
-    }
+  public String getArea() {
+    return area;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public void setArea(String area) {
+    this.area = area;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public Integer getNumBaths() {
+    return numBaths;
+  }
 
-    public String getPrice() {
-        return price;
-    }
+  public void setNumBaths(Integer numBaths) {
+    this.numBaths = numBaths;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public Integer getNumBeds() {
+    return numBeds;
+  }
 
-    public String getAddress() {
-        return address;
-    }
+  public void setNumBeds(Integer numBeds) {
+    this.numBeds = numBeds;
+  }
 
-    public String getArea() {
-        return area;
-    }
+  public String getCarpark() {
+    return carpark;
+  }
 
-    public Integer getNumBaths() {
-        return numBaths;
-    }
+  public void setCarpark(String carpark) {
+    this.carpark = carpark;
+  }
 
-    public Integer getNumBeds() {
-        return numBeds;
-    }
+  public String getPsf() {
+    return psf;
+  }
 
-    public String getCarpark() {
-        return carpark;
-    }
+  public void setPsf(String psf) {
+    this.psf = psf;
+  }
 
-    public String getPsf() {
-        return psf;
-    }
-
-    public List<Object> asList() {
-        try {
-            final List<Object> result = new ArrayList<>();
-            for (final Field field : getClass().getDeclaredFields()) {
-                result.add(field.get(this));
-            }
-            return result;
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to convert this entity to a list!", e);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
 
 }
