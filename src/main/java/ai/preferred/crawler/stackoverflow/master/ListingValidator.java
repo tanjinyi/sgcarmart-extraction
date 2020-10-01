@@ -33,10 +33,10 @@ public class ListingValidator implements Validator {
     public Status isValid(Request request, Response response) {
         final VResponse vResponse = new VResponse(response);
 
-        // Do some checks here
-        if (vResponse.getHtml().contains("Jobs in Singapore")) {
-            return Status.VALID;
-        }
+    // Do some checks here
+    if (vResponse.getHtml().contains("search jobs")) {
+      return Status.VALID;
+    }
 
         return Status.INVALID_CONTENT;
     }

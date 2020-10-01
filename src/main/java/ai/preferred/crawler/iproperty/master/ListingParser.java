@@ -14,13 +14,15 @@ public class ListingParser {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ListingParser.class);
 
-    public static List<Property> parseListing(Document document) {
-        final Elements properties = document.select("ul.listing-list.dZUSMd > li[class~=rent]");
-        final ArrayList<Property> result = new ArrayList<>(properties.size());
-        for (final Element p : properties) {
-            result.add(parseProperty(p));
-        }
-        return result;
+  private ListingParser() {
+    throw new UnsupportedOperationException();
+  }
+
+  static List<Property> parseListing(Document document) {
+    final Elements properties = document.select("ul.listing-list > li[class~=rent]");
+    final ArrayList<Property> result = new ArrayList<>(properties.size());
+    for (final Element p : properties) {
+      result.add(parseProperty(p));
     }
 
     private static String textOrNull(Element element) {
@@ -42,9 +44,9 @@ public class ListingParser {
     private static Property parseProperty(Element e) {
         final Property property = new Property();
 
-        property.setPrice(textOrNull(e.select("li[class~=listing-primary-price-item]").first()));
-        property.setArea(textOrNull(e.select("li.attributes-price-per-unit-size-item.fsbnan > a").first()));
-        property.setPsf(textOrNull(e.select("p[class~=secondary-price ]").first()));
+    property.setPrice(textOrNull(e.select("li[class~=listing-primary-price-item]").first()));
+    property.setArea(textOrNull(e.select("li.attributes-price-per-unit-size-item > a").first()));
+    property.setPsf(textOrNull(e.select("p.secondary-price").first()));
 
         for (final Element facility : e.select("li.attributes-facilities-item-wrapper")) {
             if (facility.hasClass("bedroom-facility")) {
@@ -58,24 +60,19 @@ public class ListingParser {
             }
         }
 
-        if (e.select("div.gPrykj").isEmpty()) {
-            property.setAddress(e.select("p.row-one-left-col-listing-location").text());
-            property.setTitle(e.select("h3.cgiArp").text());
-            property.setUrl(e.select("h3.cgiArp > a").attr("abs:href"));
-            property.setType(e.select("p.property-type-content").text());
-        } else {
-            property.setAddress(e.select("div.fsKEtj > a").text());
-            property.setTitle(e.select("p.jPjrzv").text());
-            property.setUrl(e.select("p.jPjrzv > a").attr("abs:href"));
-            property.setType(e.select("div.eqkyrG").text());
-            property.setPsf(textOrNull(e.select("div.boastAt > p > a").first()));
-        }
-
-        return property;
+    if (e.select("h3 > a[href~=/rent]").isEmpty()) {
+      property.setUrl(e.selectFirst("h3 > p > a[href]").attr("abs:href"));
+      property.setAddress(e.select("div.sc-iclvYL > div > a").text());
+      property.setType(e.select("div.sc-OJyzl > div > a").text());
+      property.setTitle(e.select("h3 > p > a[href]").text());
+    } else {
+      property.setUrl(e.select("p.row-one-left-col-listing-location > a").attr("abs:href"));
+      property.setAddress(e.select("p.row-one-left-col-listing-location").text());
+      property.setType(e.select("p.property-type-content").text());
+      property.setTitle(e.select("h3 > a[href~=/rent]").text());
     }
 
-    private ListingParser() {
-        throw new AssertionError();
+        return property;
     }
 
 }
